@@ -6,30 +6,38 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   Image,
+  Modal,
 } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
-import React, {useEffect, useState} from 'react';
-import Burgers from '../components/Burgers';
-import Drinks from '../components/Drinks';
-import Fries from '../components/Fries';
-import axios from 'axios';
-import {getBurgers, getFries, getDrinks,getPizzas, getSandwiches} from '../store/features/productSlice';
+import {
+  getBurgers,
+  getFries,
+  getDrinks,
+  getSandwiches,
+  getPizzas,
+} from '../../store/features/productSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import { calculatePrice } from '../store/features/orderSlice';
-import Pizzas from '../components/Pizzas';
-import Sandwiches from '../components/Sandwiches';
+import {calculatePrice, diningStyle} from '../../store/features/orderSlice';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
+import Burgers from '../../components/cashier/Burgers';
+import Drinks from '../../components/cashier/Drinks';
+import Fries from '../../components/cashier/Fries';
+import Pizzas from '../../components/cashier/Pizzas';
+import Sandwiches from '../../components/cashier/Sandwiches';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const MainMenu = ({navigation}) => {
+const WalkIn = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   const dispatch = useDispatch();
-  const {burgers, fries, drinks,pizzas,sandwiches} = useSelector(state => state.product);
-  const {total_price, type} = useSelector(state => state.order)
+  const {burgers, fries, drinks, pizzas, sandwiches} = useSelector(state => state.product);
+  const {total_price, type} = useSelector(state => state.order);
+
   const getCalculate = () => {
-    dispatch(calculatePrice())
-  }
+    dispatch(calculatePrice());
+  };
   useEffect(() => {
-    getCalculate()
-  })
+    getCalculate();
+  });
 
   const getAllBurgers = async () => {
     try {
@@ -110,6 +118,7 @@ const MainMenu = ({navigation}) => {
     getAllSandwiches();
   };
 
+  const [showAlert, setShowAlert] = useState(false);
   const [selectedTab, setSelectedTab] = useState('');
   const renderContent = () => {
     switch (selectedTab) {
@@ -127,7 +136,98 @@ const MainMenu = ({navigation}) => {
         return null;
     }
   };
+  const handleShowAlert = () => {
+    setShowAlert(true);
+  };
 
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
+  const chooseType = style => {
+    dispatch(diningStyle(style)); // Dispatch the diningStyle action
+  };
+
+  const dineIn = () => {
+    chooseType('Dine-in');
+    setShowAlert(false);
+  };
+
+  const takeOut = () => {
+    chooseType('take-out');
+    setShowAlert(false);
+  };
+
+  const CustomAlert = () => {
+    const {height, width} = useWindowDimensions();
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showAlert}
+        onRequestClose={handleCloseAlert}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}>
+          <View
+            style={{
+              height: height * 0.2,
+              paddingHorizontal: 10,
+              width: width * 0.9,
+              backgroundColor: 'white',
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              elevation: 5,
+            }}>
+            <Text style={{textAlign: 'center', color: 'black', fontSize: 18}}>
+              Dining Style
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 6,
+              }}>
+              <TouchableOpacity
+                style={{
+                  width: 100,
+                  marginTop: 10,
+                  padding: 10,
+                  backgroundColor: 'green',
+                  borderRadius: 5,
+                }}
+                onPress={() => dineIn()}>
+                <Text
+                  style={{textAlign: 'center', color: 'white', fontSize: 16}}>
+                  Dine In
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: 100,
+                  marginTop: 10,
+                  padding: 10,
+                  backgroundColor: 'red',
+                  borderRadius: 5,
+                }}
+                onPress={() => takeOut()}>
+                <Text
+                  style={{textAlign: 'center', color: 'white', fontSize: 16}}>
+                  Take Out
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
   return (
     <>
       <SafeAreaView
@@ -135,12 +235,13 @@ const MainMenu = ({navigation}) => {
         <ScrollView
           style={{
             width: width * 0.2,
+            paddingTop: 20,
             borderRightWidth: 1,
             borderColor: 'white',
           }}>
           <View style={{alignItems: 'center'}}>
             <Image
-              source={require('../assets/logo.png')}
+              source={require('../../assets/logo.png')}
               style={{height: 100, width: 100}}
             />
             <Text
@@ -169,7 +270,7 @@ const MainMenu = ({navigation}) => {
               <View>
                 <Image
                   style={{height: 80, width: 100}}
-                  source={require('../assets/menuBurger.png')}
+                  source={require('../../assets/menuBurger.png')}
                 />
                 <Text
                   style={{
@@ -200,7 +301,7 @@ const MainMenu = ({navigation}) => {
               <View>
                 <Image
                   style={{height: 80, width: 90}}
-                  source={require('../assets/menuFries.png')}
+                  source={require('../../assets/menuFries.png')}
                 />
                 <Text
                   style={{
@@ -210,37 +311,6 @@ const MainMenu = ({navigation}) => {
                     fontWeight: 600,
                   }}>
                   Fries
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => drinksButton()}
-              style={{
-                width: width * 0.28,
-                marginVertical: 3,
-                borderWidth: 1,
-                borderColor: 'gray',
-                backgroundColor: 'white',
-                height: height / 6,
-                borderRadius: 15,
-                overflow: 'hidden',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View>
-                <Image
-                  style={{height: 90, width: 90}}
-                  source={require('../assets/can-cola.png')}
-                />
-                <Text
-                  style={{
-                    marginTop: 4,
-                    textAlign: 'center',
-                    fontSize: 17,
-                    fontWeight: 600,
-                  }}>
-                  Drinks
                 </Text>
               </View>
             </TouchableOpacity>
@@ -262,7 +332,7 @@ const MainMenu = ({navigation}) => {
               <View>
                 <Image
                   style={{height: 90, width: 90}}
-                  source={require('../assets/sandwich2.png')}
+                  source={require('../../assets/sandwich2.png')}
                 />
                 <Text
                   style={{
@@ -292,7 +362,7 @@ const MainMenu = ({navigation}) => {
               <View>
                 <Image
                   style={{height: 90, width: 90}}
-                  source={require('../assets/pizza1.png')}
+                  source={require('../../assets/pizza1.png')}
                 />
                 <Text
                   style={{
@@ -302,6 +372,37 @@ const MainMenu = ({navigation}) => {
                     fontWeight: 600,
                   }}>
                   Pizzas
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => drinksButton()}
+              style={{
+                width: width * 0.28,
+                marginVertical: 3,
+                borderWidth: 1,
+                borderColor: 'gray',
+                backgroundColor: 'white',
+                height: height / 6,
+                borderRadius: 15,
+                overflow: 'hidden',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View>
+                <Image
+                  style={{height: 90, width: 90}}
+                  source={require('../../assets/can-cola.png')}
+                />
+                <Text
+                  style={{
+                    marginTop: 4,
+                    textAlign: 'center',
+                    fontSize: 17,
+                    fontWeight: 600,
+                  }}>
+                  Drinks
                 </Text>
               </View>
             </TouchableOpacity>
@@ -321,15 +422,37 @@ const MainMenu = ({navigation}) => {
           backgroundColor: 'white',
           borderTopWidth: 1,
         }}>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 10,
-            color: 'black',
-          }}>
-          Your Order - {type}
-        </Text>
+        {type !== '' ? (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                marginBottom: 10,
+                color: 'black',
+              }}>
+              Customer Order -
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                marginBottom: 10,
+                color: 'black',
+                marginLeft: 4,
+              }}>
+              {type}
+            </Text>
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={{paddingTop: 5, paddingBottom: 15}}
+            onPress={() => handleShowAlert()}>
+            <Text style={{color: 'red', fontSize: 16, fontWeight: 'bold'}}>
+              Choose Dining Style (Tap Here)
+            </Text>
+          </TouchableOpacity>
+        )}
         <View
           style={{
             flexDirection: 'row',
@@ -340,7 +463,7 @@ const MainMenu = ({navigation}) => {
             Total PHP: {total_price}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ViewOrder')}
+            onPress={() => navigation.navigate('CashierViewOrder')}
             style={{
               backgroundColor: '#0FFF50',
               padding: 10,
@@ -362,8 +485,9 @@ const MainMenu = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <CustomAlert />
     </>
   );
 };
 
-export default MainMenu;
+export default WalkIn;

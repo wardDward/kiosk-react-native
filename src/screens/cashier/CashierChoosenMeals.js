@@ -11,35 +11,35 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {addToCart} from '../store/features/orderSlice';
+import {addToCart} from '../../store/features/orderSlice';
 import axios from 'axios';
-import {getDrinks} from '../store/features/productSlice';
-import burger1 from '../assets/burgers/burger1.png';
-import burger2 from '../assets/burgers/burger2.png';
-import burger3 from '../assets/burgers/burger3.png';
-import burger4 from '../assets/burgers/burger4.png';
-import burger5 from '../assets/burgers/burger5.png';
-import burger6 from '../assets/burgers/burger6.png';
-import burger7 from '../assets/burgers/burger7.png';
-import burger8 from '../assets/burgers/burger8.png';
-import burger9 from '../assets/burgers/burger9.png';
-import friesImage1 from '../assets/fries/fries1.png';
-import friesImage2 from '../assets/fries/fries2.png';
-import friesImage3 from '../assets/fries/fries3.png';
-import friesImage4 from '../assets/fries/fries4.png';
-import friesImage5 from '../assets/fries/fries5.png';
-import friesImage6 from '../assets/fries/fries6.png';
-import drinksImage1 from '../assets/drinks/drinks1.png';
-import drinksImage2 from '../assets/drinks/drinks2.png';
-import drinksImage3 from '../assets/drinks/drinks3.png';
+import {getDrinks} from '../../store/features/productSlice';
+import burger1 from '../../assets/burgers/burger1.png';
+import burger2 from '../../assets/burgers/burger2.png';
+import burger3 from '../../assets/burgers/burger3.png';
+import burger4 from '../../assets/burgers/burger4.png';
+import burger5 from '../../assets/burgers/burger5.png';
+import burger6 from '../../assets/burgers/burger6.png';
+import burger7 from '../../assets/burgers/burger7.png';
+import burger8 from '../../assets/burgers/burger8.png';
+import burger9 from '../../assets/burgers/burger9.png';
+import friesImage1 from '../../assets/fries/fries1.png';
+import friesImage2 from '../../assets/fries/fries2.png';
+import friesImage3 from '../../assets/fries/fries3.png';
+import friesImage4 from '../../assets/fries/fries4.png';
+import friesImage5 from '../../assets/fries/fries5.png';
+import friesImage6 from '../../assets/fries/fries6.png';
+import drinksImage1 from '../../assets/drinks/drinks1.png';
+import drinksImage2 from '../../assets/drinks/drinks2.png';
+import drinksImage3 from '../../assets/drinks/drinks3.png';
 
-import pizza1 from '../assets/pizza/pizza1.png';
-import pizza2 from '../assets/pizza/pizza2.png';
-import pizza3 from '../assets/pizza/pizza3.png';
-import pizza4 from '../assets/pizza/pizza4.png';
+import pizza1 from '../../assets/pizza/pizza1.png';
+import pizza2 from '../../assets/pizza/pizza2.png';
+import pizza3 from '../../assets/pizza/pizza3.png';
+import pizza4 from '../../assets/pizza/pizza4.png';
 
-import sandwich1 from '../assets/sandwich/sandwich1.png';
-import sandwich2 from '../assets/sandwich/sandwich2.png';
+import sandwich1 from '../../assets/sandwich/sandwich1.png';
+import sandwich2 from '../../assets/sandwich/sandwich2.png';
 
 const ChoosenMeals = ({navigation, route}) => {
   const propsId = route.params.id;
@@ -97,7 +97,7 @@ const ChoosenMeals = ({navigation, route}) => {
 
   const handleCloseAlert = () => {
     setShowAlert(false);
-    navigation.navigate('MainMenu');
+    navigation.navigate('CashierBoard');
   };
 
   const CustomAlert = ({visible, onClose, message}) => {
@@ -203,12 +203,24 @@ const ChoosenMeals = ({navigation, route}) => {
               />
               <Text
                 style={{
-                  marginLeft: 7,
                   fontSize: 20,
                   fontWeight: 'bold',
                   color: 'white',
                 }}>
                 {choosenMeal.item_name}
+              </Text>
+            </View>
+            <View style={{alignItems: 'center'}}>
+              <Text style={{color: 'white', marginRight: 20}}>
+                Item Price - {choosenMeal.price}
+              </Text>
+              <Text style={{color: 'white', marginRight: 20}}>
+                Drinks Price - {selectedDrink.price}
+              </Text>
+              <Text style={{color: 'white', marginRight: 20}}>
+                Total Price -{' '}
+                {((choosenMeal && choosenMeal.price) || 0) +
+                  ((selectedDrink && selectedDrink.price) || 0)}
               </Text>
             </View>
           </View>
@@ -252,7 +264,7 @@ const ChoosenMeals = ({navigation, route}) => {
                   }}>
                   {choosenMeal.item_name}
                 </Text>
-                <Text style={{marginLeft: 6,fontWeight: 500, color: 'red', fontSize: 14}}>
+                <Text style={{fontWeight: 500, color: 'red', fontSize: 14}}>
                   Price - {choosenMeal.price} php
                 </Text>
               </View>
@@ -316,7 +328,7 @@ const ChoosenMeals = ({navigation, route}) => {
             </View>
           </View>
 
-          <ScrollView style={{flex: 1, flexWrap: 'wrap'}}>
+          <ScrollView style={{flex: 1, flexWrap: 'wrap', marginTop: 20}}>
             <Text style={{fontWeight: 500, color: 'white', marginVertical: 5}}>
               Choose your drink
             </Text>
@@ -361,57 +373,45 @@ const ChoosenMeals = ({navigation, route}) => {
       </SafeAreaView>
       <View
         style={{
-          paddingVertical: 10,
+          paddingVertical: 20,
           paddingHorizontal: 50,
           borderTopColor: 'lightgray',
           backgroundColor: 'white ',
           borderTopWidth: 1,
-          flexDirection: 'column',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 10,
         }}>
-        <View style={{marginBottom: 15}}>
-          <Text style={{color: 'black', marginRight: 20}}>
-            Item Price - {choosenMeal.price}
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{
+            backgroundColor: 'red',
+            flex: 1,
+            paddingVertical: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+          }}>
+          <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
+            Cancel
           </Text>
-          <Text style={{color: 'black', marginRight: 20}}>
-            Drinks Price - {selectedDrink.price}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'green',
+            flex: 1,
+            paddingVertical: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+          }}>
+          <Text
+            style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}
+            onPress={() => handleAddToCart()}>
+            Add Order
           </Text>
-          <Text style={{color: 'black', marginRight: 20}}>
-            Total Price -
-            {((choosenMeal && choosenMeal.price) || 0) +
-              ((selectedDrink && selectedDrink.price) || 0)}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              backgroundColor: 'red',
-              flex: 1,
-              paddingVertical: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 15,
-            }}>
-            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-              Cancel
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'green',
-              flex: 1,
-              paddingVertical: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 15,
-            }}>
-            <Text
-              style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}
-              onPress={() => handleAddToCart()}>
-              Add Order
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
       <CustomAlert
         visible={showAlert}

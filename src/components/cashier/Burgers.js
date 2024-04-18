@@ -7,13 +7,14 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import burger1 from '../assets/burgers/burger1.png';
-import burger2 from '../assets/burgers/burger2.png';
-import burger3 from '../assets/burgers/burger3.png';
-import burger4 from '../assets/burgers/burger4.png';
-import burger5 from '../assets/burgers/burger5.png';
-import burger6 from '../assets/burgers/burger6.png';
-import burger7 from '../assets/burgers/burger7.png';
+import burger1 from '../../assets/burgers/burger1.png';
+import burger2 from '../../assets/burgers/burger2.png';
+import burger3 from '../../assets/burgers/burger3.png';
+import burger4 from '../../assets/burgers/burger4.png';
+import burger5 from '../../assets/burgers/burger5.png';
+import burger6 from '../../assets/burgers/burger6.png';
+import burger7 from '../../assets/burgers/burger7.png';
+
 
 const imageMap = {
   '../assets/burgers/burgers1.png': burger1,
@@ -23,6 +24,7 @@ const imageMap = {
   '../assets/burgers/burger5.png': burger5,
   '../assets/burgers/burger6.png': burger6,
   '../assets/burgers/burger7.png': burger7,
+
 };
 
 const Meals = ({navigation, burger}) => {
@@ -30,7 +32,7 @@ const Meals = ({navigation, burger}) => {
   return (
     <>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ChoosenMeal', burger)}
+        onPress={() => navigation.navigate('CashierChoosenMeals', burger)}
         style={{
           width: width * 0.32,
           height: height / 4,
@@ -41,10 +43,9 @@ const Meals = ({navigation, burger}) => {
           alignItems: 'center',
           overflow: 'hidden',
         }}>
-        <Image
+        <Image 
           source={imageMap[burger.image_path]}
-          style={{height: 130, width: 130}}
-        />
+          style={{height: 130, width: 130}} />
         <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>
           {burger.item_name}
         </Text>

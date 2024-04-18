@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 
-import drinksImage1 from '../assets/drinks/drinks1.png';
-import drinksImage2 from '../assets/drinks/drinks2.png';
-import drinksImage3 from '../assets/drinks/drinks3.png';
+import drinksImage1 from '../../assets/drinks/drinks1.png';
+import drinksImage2 from '../../assets/drinks/drinks2.png';
+import drinksImage3 from '../../assets/drinks/drinks3.png';
 import {useDispatch} from 'react-redux';
-import {addToCart} from '../store/features/orderSlice';
+import {addToCart} from '../../store/features/orderSlice';
 
 
 const imageMap = {

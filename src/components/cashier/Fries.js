@@ -6,12 +6,12 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
-import friesImage1 from '../assets/fries/fries1.png';
-import friesImage2 from '../assets/fries/fries2.png';
-import friesImage3 from '../assets/fries/fries3.png';
-import friesImage4 from '../assets/fries/fries4.png';
-import friesImage5 from '../assets/fries/fries5.png';
-import friesImage6 from '../assets/fries/fries6.png';
+import friesImage1 from '../../assets/fries/fries1.png';
+import friesImage2 from '../../assets/fries/fries2.png';
+import friesImage3 from '../../assets/fries/fries3.png';
+import friesImage4 from '../../assets/fries/fries4.png';
+import friesImage5 from '../../assets/fries/fries5.png';
+import friesImage6 from '../../assets/fries/fries6.png';
 
 
 
@@ -30,7 +30,7 @@ const Meals = ({navigation, frie}) => {
   return (
     <>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ChoosenMeal', frie)}
+        onPress={() => navigation.navigate('CashierChoosenMeals', frie)}
         style={{
           width: width * 0.32,
           height: height / 4,

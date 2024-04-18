@@ -5,10 +5,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import React from 'react';
 
 const OnBoardScreen = ({navigation}) => {
+  const {height, width} = useWindowDimensions();
   return (
     <SafeAreaView
       style={{
@@ -18,7 +20,10 @@ const OnBoardScreen = ({navigation}) => {
         justifyContent: 'space-between',
       }}>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Image source={require('../assets/logo.png')} style={{width: 800, height: 700}}/>
+        <Image
+          source={require('../assets/logo.png')}
+          style={{width: width, height: height * 0.8}}
+        />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('DiningLocation')}>
         <Text

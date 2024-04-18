@@ -263,6 +263,7 @@ const BluetoothScreen = ({navigation}) => {
         <Text style={styles.bluetoothStatus(bleOpend ? '#47BF34' : '#A8A9AA')}>
           Bluetooth {bleOpend ? 'Enabled' : 'Disabled'}
         </Text>
+        <View>
         <Pressable
           style={{
             backgroundColor: 'blue',
@@ -272,8 +273,20 @@ const BluetoothScreen = ({navigation}) => {
             paddingHorizontal: 14,
             marginBottom: 20,
           }} onPress={() => navigation.navigate('OnBoardScreen')}>
-          <Text style={{color: 'white'}}>Next</Text>
+          <Text style={{color: 'white', textAlign: 'center'}}>Next</Text>
         </Pressable>
+        <Pressable
+          style={{
+            backgroundColor: 'blue',
+            padding: 8,
+            borderRadius: 2,
+            color: 'white',
+            paddingHorizontal: 14,
+            marginBottom: 20,
+          }} onPress={() => navigation.navigate('CashierBoard')}>
+          <Text style={{color: 'white', textAlign: 'center'}}>Cashier</Text>
+        </Pressable>
+        </View>
       </View>
       {!bleOpend && (
         <Text style={styles.bluetoothInfo}>Please enable your Bluetooth</Text>

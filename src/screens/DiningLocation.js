@@ -7,9 +7,26 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {diningStyle} from '../store/features/orderSlice';
 
 const DiningLocation = ({navigation}) => {
   const {height, width} = useWindowDimensions();
+  const dispatch = useDispatch();
+
+  const chooseType = style => {
+    dispatch(diningStyle(style)); // Dispatch the diningStyle action
+  };
+
+  const dineIn = () => {
+    chooseType('Dine-in');
+    navigation.navigate('MainMenu');
+  };
+
+  const takeOut = () => {
+    chooseType('take-out');
+    navigation.navigate('MainMenu');
+  };
   return (
     <SafeAreaView
       style={{
@@ -28,7 +45,7 @@ const DiningLocation = ({navigation}) => {
       </Text>
       <View style={{flexDirection: 'row', gap: 4}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('MainMenu')}
+          onPress={() => dineIn()}
           style={{
             backgroundColor: 'white',
             height: height / 3,
@@ -42,8 +59,8 @@ const DiningLocation = ({navigation}) => {
             <Image
               source={require('../assets/dining-burger1.jpg')}
               style={{
-                height: 180,
-                width: 180,
+                height: height * 0.2,
+                width: width * 0.4,
                 marginTop: 40,
                 borderRadius: 100,
               }}
@@ -51,7 +68,7 @@ const DiningLocation = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('MainMenu')}
+          onPress={() => takeOut()}
           style={{
             backgroundColor: 'white',
             height: height / 3,
@@ -65,8 +82,8 @@ const DiningLocation = ({navigation}) => {
             <Image
               source={require('../assets/dining-fries.jpg')}
               style={{
-                height: 180,
-                width: 180,
+                height: height * 0.2,
+                width: width * 0.4,
                 marginTop: 40,
                 borderRadius: 100,
               }}
